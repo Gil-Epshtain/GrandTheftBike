@@ -1,0 +1,42 @@
+{
+  "cSpell.words":
+  [
+    "Epshtain"
+  ],
+
+  "debug.toolBarLocation": "docked",
+
+  "editor.autoClosingQuotes": "never",
+  "editor.detectIndentation": false,
+  "editor.fontFamily": "Fira Code, Consolas, 'Courier New'",
+  "editor.fontSize": 13,
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": true,
+  "editor.renderControlCharacters": false,
+  "editor.renderWhitespace": "all",
+  "editor.linkedEditing": false,
+  "editor.tabSize": 2,
+
+  "explorer.openEditors.visible": 0,
+  "explorer.compactFolders": false,
+
+  "git.ignoreMissingGitWarning": true,
+
+  "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+  "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+
+  "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+  "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "typescript.preferences.importModuleSpecifier": "relative",
+
+  "window.zoomLevel": 2,
+
+  "workbench.colorTheme": "Default Dark+",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.settings.editor": "json",
+  "workbench.editor.wrapTabs": true,
+  "workbench.editor.tabSizing": "shrink",
+
+  "zenMode.centerLayout": false
+}
