@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './components/root/app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -20,8 +21,9 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

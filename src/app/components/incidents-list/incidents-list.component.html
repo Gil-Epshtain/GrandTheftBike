@@ -1,5 +1,14 @@
 <p>incidents-list works!</p>
 
-<button (click)="onClick(1)">page 1</button>
-<button (click)="onClick(2)">page 2</button>
-<button (click)="onClick(3)">page 3</button>
+<div>
+  <div *ngFor="let incident of incidentsList"
+      (click)="onClick_Incident(incident)"
+      style="border: 1px solid; margin: 0 12px 4px;">
+    <div>
+      {{ incident.id }}
+    </div>
+    <div>
+      {{ incident.title }}
+    </div>
+  </div>
+</div>
