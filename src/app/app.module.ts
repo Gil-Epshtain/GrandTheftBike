@@ -4,7 +4,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatCardModule }from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,7 +29,8 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
     HttpClientModule,
 
     MatToolbarModule,
-    MatSliderModule,
+    MatCardModule,
+    MatButtonModule,
 
     AppRoutingModule
   ],

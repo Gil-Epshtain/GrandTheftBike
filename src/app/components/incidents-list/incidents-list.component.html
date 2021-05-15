@@ -1,14 +1,42 @@
-<p>incidents-list works!</p>
+<div class="incidents-list-container">
+  <div class="filters">
+    Filters: TBD
+  </div>
+  <div class="total-count">
+    Total number of thefts: TBD
+  </div>
+  <div class="incidents-list">
+    <!-- card -->
+    <mat-card *ngFor="let incident of theftsList"
+              class="incident-card">
+      <!-- header -->
+      <mat-card-header>
+        <mat-card-title>{{ incident.title }}</mat-card-title>
+        <mat-card-subtitle>{{ incident.address }}</mat-card-subtitle>
+      </mat-card-header>
+      <!-- img -->
+      <img mat-card-image
+           [src]="incident.media.image_url_thumb"
+           alt="Missing Photo"
+           class="card-img">
+      <!-- body text -->
+      <mat-card-content class="card-body">
+        <p>
+          {{ incident.description }}
+        </p>
+      </mat-card-content>
+      <!-- buttons -->
+      <mat-card-actions class="card-buttons">
+        <button mat-button
+                (click)="onClick_Incident(incident)"
+                color="accent">
+          More Details
+        </button>
+      </mat-card-actions>
+    </mat-card>
 
-<div>
-  <div *ngFor="let incident of incidentsList"
-      (click)="onClick_Incident(incident)"
-      style="border: 1px solid; margin: 0 12px 4px;">
-    <div>
-      {{ incident.id }}
-    </div>
-    <div>
-      {{ incident.title }}
-    </div>
+  </div>
+  <div>
+    Paging TBD
   </div>
 </div>

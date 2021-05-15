@@ -10,7 +10,7 @@ import { IncidentsService, iIncident } from './../../services/incidents/incident
 })
 export class IncidentsListComponent implements OnInit
 {
-  public incidentsList: iIncident[];
+  public theftsList: iIncident[];
   public pageNum: number;
 
   public constructor(
@@ -22,16 +22,21 @@ export class IncidentsListComponent implements OnInit
 
   public ngOnInit(): void
   {
+    this._loadTheftsList();
+  }
+
+  private _loadTheftsList(): void
+  {
     this.pageNum = 1;
 
     this._incidentsService.loadBerlinThefts(this.pageNum).then(
-      (list: iIncident[]) =>
+      (incidentList: iIncident[]) =>
       {
-        this.incidentsList = list
+        this.theftsList = incidentList;
       },
       () => // error
       {
-        this.incidentsList = [];
+        this.theftsList = [];
       });
   }
 
