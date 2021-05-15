@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSliderModule } from '@angular/material/slider';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './components/root/app.component';
@@ -23,6 +26,10 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
     BrowserModule,
     NoopAnimationsModule,
     HttpClientModule,
+
+    MatToolbarModule,
+    MatSliderModule,
+
     AppRoutingModule
   ],
   providers: [],
