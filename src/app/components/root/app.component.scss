@@ -4,16 +4,10 @@
   display: flex;
   flex-direction: column;
 
-  .header-container
-  {
-  }
   .body-container
   {
     flex: 1;
-    background-color: gray;
+    background-color: #303030;
     overflow: auto;
-  }
-  .footer-container
-  {
   }
 }

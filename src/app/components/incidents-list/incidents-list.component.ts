@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 import { IncidentsService, iIncident } from './../../services/incidents/incidents.service';
+
+interface iListState
+{
+  length: number;
+  pageSize: number;
+  pageSizeOptions: number[];
+  pageIndex: number;
+}
 
 @Component({
   selector: 'app-incidents-list',
@@ -11,7 +20,7 @@ import { IncidentsService, iIncident } from './../../services/incidents/incident
 export class IncidentsListComponent implements OnInit
 {
   public theftsList: iIncident[];
-  public pageNum: number;
+  public listState: iListState;
 
   public constructor(
     private _router: Router,
@@ -22,14 +31,24 @@ export class IncidentsListComponent implements OnInit
 
   public ngOnInit(): void
   {
+    this._initListState();
     this._loadTheftsList();
+  }
+
+  private _initListState(): void
+  {
+    this.listState =
+    {
+      length: 120, // $G$ how to get this?
+      pageSize: 10, // default 10
+      pageSizeOptions: [5, 10, 25, 100],
+      pageIndex: 0
+    };
   }
 
   private _loadTheftsList(): void
   {
-    this.pageNum = 1;
-
-    this._incidentsService.loadBerlinThefts(this.pageNum).then(
+    this._incidentsService.loadBerlinThefts(this.listState.pageIndex, this.listState.pageSize).then(
       (incidentList: iIncident[]) =>
       {
         this.theftsList = incidentList;
@@ -45,5 +64,27 @@ export class IncidentsListComponent implements OnInit
     console.log("Incidents-List.component - onClick_Incident");
 
     this._router.navigate(['incident', incident.id]);
+  }
+
+  public onChange_Paginator(event: PageEvent): void
+  {
+    console.log("Incidents-List.component - onChange_Paginator");
+
+    // interface PageEvent
+    // {
+    //   length: number;
+    //   pageSize: number
+    //   pageIndex: number;
+    //   previousPageIndex: number;
+    // }
+
+    if (this.listState.pageIndex != event.pageIndex ||
+        this.listState.pageSize  != event.pageSize)
+    {
+      this.listState.pageIndex = event.pageIndex;
+      this.listState.pageSize  = event.pageSize;
+
+      this._loadTheftsList();
+    }
   }
 }

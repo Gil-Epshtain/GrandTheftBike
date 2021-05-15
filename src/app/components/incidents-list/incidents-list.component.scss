@@ -8,11 +8,6 @@
     font-style: italic;
   }
 
-  .total-count
-  {
-    font-weight: bold;
-  }
-
   .incidents-list
   {
     display: flex;
@@ -46,5 +41,10 @@
         text-align: right;
       }
     }
+  }
+
+  .list-paginator
+  {
+    margin-top: 6px;
   }
 }

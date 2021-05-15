@@ -54,7 +54,7 @@ export class IncidentsService
     console.log("Incidents.service - ctor");
   }
 
-  public loadBerlinThefts(pageNum: number, filter?: iTheftFilter): Promise<iIncident[]>
+  public loadBerlinThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iIncident[]>
   {
     console.log("Incidents.service - loadIncidents");
 
@@ -62,10 +62,10 @@ export class IncidentsService
     {
       const requestData: iIncidentRequest =
       {
-        page: pageNum,
+        page: (pageIndex + 1), // mat-paginator is zero-based index. API is 1-based index.
+        per_page: pageSize,
 
         // Const filters
-        per_page: 10,
         incident_type: "theft",
         proximity: "52.50985, 13.40051", // Berlin center
         proximity_square: 50, // Metropolitan size

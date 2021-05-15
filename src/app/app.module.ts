@@ -1,12 +1,16 @@
+// Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
+// Material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule }from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
+// App
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './components/root/app.component';
@@ -31,6 +35,7 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatPaginatorModule,
 
     AppRoutingModule
   ],

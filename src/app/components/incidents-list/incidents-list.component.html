@@ -2,9 +2,6 @@
   <div class="filters">
     Filters: TBD
   </div>
-  <div class="total-count">
-    Total number of thefts: TBD
-  </div>
   <div class="incidents-list">
     <!-- card -->
     <mat-card *ngFor="let incident of theftsList"
@@ -36,7 +33,12 @@
     </mat-card>
 
   </div>
-  <div>
-    Paging TBD
+  <div class="list-paginator">
+    <mat-paginator [length]="listState.length"
+                   [pageSize]="listState.pageSize"
+                   [pageSizeOptions]="listState.pageSizeOptions"
+                   (page)="onChange_Paginator($event)"
+                   color="accent">
+    </mat-paginator>
   </div>
 </div>
