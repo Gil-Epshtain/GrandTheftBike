@@ -40,8 +40,12 @@ export class ServerService
     return this._httpClient.get(url, { params }).toPromise();
   }
 
-  // public sendRequest_incidentById(incidentId: number): Promise<any>
-  // {
-    
-  // }
+  public sendRequest_incidentById(incidentId: number): Promise<any>
+  {
+    console.log("Server.service - sendRequest_incidentById");
+
+    const url: string = `${ this._serverUrl }/v2/incidents/${ incidentId }`;
+
+    return this._httpClient.get(url).toPromise();
+  }
 }

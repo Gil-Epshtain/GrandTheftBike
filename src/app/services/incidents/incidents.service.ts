@@ -48,10 +48,14 @@ export interface iTheftFilter
 })
 export class IncidentsService
 {
+  private _cachedIncidents: iIncident[];
+
   public constructor(
     private _serverService: ServerService)
   {
     console.log("Incidents.service - ctor");
+
+    this._cachedIncidents = [];
   }
 
   public loadBerlinThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iIncident[]>
@@ -90,6 +94,9 @@ export class IncidentsService
         {
           console.debug("Incidents.service - loadIncidents - Success");
 
+          // Save incidentsList for cache
+          this._cachedIncidents = response.incidents;
+
           resolve(response.incidents);
         },
         (error) =>
@@ -98,6 +105,41 @@ export class IncidentsService
 
           reject();
         });
+    });
+
+    return promise;
+  }
+
+  public getIncident(incidentId: number): Promise<iIncident>
+  {
+    console.log("Incidents.service - getIncident");
+
+    const promise = new Promise<iIncident>((resolve, reject) =>
+    {
+      // Search incident in cache, if not found load from server
+      const localIncident = this._cachedIncidents.find(incident => incident.id == incidentId);
+      if (localIncident)
+      {
+        console.debug("Incidents.service - getIncident - Loaded from cache");
+
+        resolve(localIncident);
+      }
+      else
+      {
+        this._serverService.sendRequest_incidentById(incidentId).then(
+          (response) =>
+          {
+            console.debug("Incidents.service - getIncident - Success");
+
+            resolve(response.incident);
+          },
+          (error) =>
+          {
+            console.error(`Incidents.service - getIncident - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
+
+            reject();
+          });
+      }
     });
 
     return promise;
