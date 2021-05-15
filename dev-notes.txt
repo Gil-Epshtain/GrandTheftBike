@@ -1,0 +1,26 @@
+Tasks
+----------
+1. List thefts in the Berlin Metropolitan area.
+  Done!
+
+2. Ten cases per page (pagination)
+  Done!
+
+3. Total number of thefts.
+  How to get this, not in API?
+
+4. When you click on a case, a new page will appearThis page shall display:
+  - Case title
+  - Written description of stolen item
+  - Date of theft
+  - Date of report of theft
+  - Location of theft that will be displayed on a map (google map or equivalent)
+  - Picture of the stolen bike, if available
+
+5. Search function must be able to filter by case title, alternatively by date, or both.
+
+6. The should be an autocomplete for title search (as in the example).
+
+7. Display of loading state until the list is available, error state if the list is unavailable, and empty state if there are no results.
+
+X. Unit tests
