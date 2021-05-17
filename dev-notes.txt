@@ -24,3 +24,7 @@ Tasks
 7. Display of loading state until the list is available, error state if the list is unavailable, and empty state if there are no results.
 
 X. Unit tests
+
+-----
+Bug:
+- After updating to api v3, the results are from the US, but filter from Berlin. Test server??

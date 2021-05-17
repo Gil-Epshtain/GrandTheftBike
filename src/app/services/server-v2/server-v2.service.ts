@@ -41,8 +41,8 @@ export interface iIncident
     image_url: string;
     image_url_thumb: string;
   },
-  location_type: any;
-  location_description: any;
+  location_type: any; // ?
+  location_description: any; // ?
   type: eIncidentType;
   type_properties: { [propertyKey: string]: any; }; // different objects per each type
 }

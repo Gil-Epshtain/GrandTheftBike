@@ -48,7 +48,8 @@ export class IncidentsListComponent implements OnInit
 
   private _loadTheftsList(): void
   {
-    this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then(
+    //this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then( // API V2
+    this._bikeTheftsService.loadBerlinBikeThefts(this.listState.pageIndex, this.listState.pageSize).then( // API V3
       (bikeTheftsList: iBikeTheft[]) =>
       {
         this.theftsList = bikeTheftsList;

@@ -21,10 +21,11 @@ export class IncidentDetailsComponent implements OnInit
 
   public ngOnInit(): void
   {
-    const incidentId: number = this._activatedRoute.snapshot.params.incidentId;
-    if (incidentId)
+    const id: number = this._activatedRoute.snapshot.params.id;
+    if (id)
     {
-      this._bikeTheftsService.getIncident(incidentId).then(
+      //this._bikeTheftsService.getIncident(id).then( // API V2
+      this._bikeTheftsService.getBikeTheft(id).then( // API V3
         (bikeTheft: iBikeTheft) => {
           this.bikeTheft = bikeTheft;
         },

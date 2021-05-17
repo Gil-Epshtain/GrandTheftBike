@@ -16,7 +16,7 @@ const routes: Routes =
     component: IncidentsListComponent
   },
   {
-    path: 'incident/:incidentId',
+    path: 'incident/:id',
     component: IncidentDetailsComponent
   }
 ];
