@@ -1,3 +1,39 @@
-<p>incident-details works!</p>
+<!-- TBD
+  Case title
+- Written description of stolen item
+- Date of theft
+- Date of report of theft
+- Location of theft that will be displayed on a map (google map or equivalent)
+- Picture of the stolen bike, if available 
 
-incident id: {{ incidentId }}
+- empty
+-->
+
+<div class="incident-details-container">
+
+  <div *ngIf="incident" class="incident-details">
+    <h1>{{ incident.title }}</h1>
+    <p>
+      {{ incident.description }}
+    </p>
+    <div>
+      Date of theft: {{ incident.occurred_at }}
+    </div>
+    <div>
+      Date of report of theft: {{ incident.updated_at }}
+    </div>
+    <div>
+      Location (map) TBD
+    </div>
+    <div>
+      <img [src]="incident.media.image_url" />
+    </div>
+  </div>
+
+  <div *ngIf="!incident" class="empty-incident">
+    <mat-icon class="icon-empty">report_gmailerrorred</mat-icon>
+    <div>
+      Incident not found
+    </div>
+  </div>
+</div>

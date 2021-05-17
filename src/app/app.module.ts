@@ -5,10 +5,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 // Material
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule }from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 // App
 import { AppRoutingModule } from './app-routing.module';
@@ -32,10 +33,11 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
     NoopAnimationsModule,
     HttpClientModule,
 
-    MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
+    MatToolbarModule,
 
     AppRoutingModule
   ],

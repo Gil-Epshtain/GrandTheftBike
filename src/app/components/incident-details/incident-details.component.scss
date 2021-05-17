@@ -1,0 +1,22 @@
+.incident-details-container
+{
+  color: white;
+
+  .incident-details
+  {
+
+  }
+
+  .empty-incident
+  {
+    text-align: center;
+    padding: 64px;
+    font-size: 22px;
+
+    .icon-empty
+    {
+      font-size: 128px;
+      width: 128px;
+    }
+  }
+}
