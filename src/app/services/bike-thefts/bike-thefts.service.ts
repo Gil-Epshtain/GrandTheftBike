@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ServerService, iIncidentsFilterV2, iIncidentV2 } from '../server/server.service';
+import { ServerV2Service, iIncidentsFilter, iIncident } from '../server-v2/server-v2.service';
 
 export interface iTheftFilter
 {
@@ -39,7 +39,7 @@ export class BikeTheftsService
   private _cachedBikeTheft: iBikeTheft[];
 
   public constructor(
-    private _serverService: ServerService)
+    private _serverV2Service: ServerV2Service)
   {
     console.log("Bike-Thefts.service - ctor");
 
@@ -54,7 +54,7 @@ export class BikeTheftsService
 
     const promise = new Promise<iBikeTheft[]>((resolve, reject) =>
     {
-      const requestData: iIncidentsFilterV2 =
+      const requestData: iIncidentsFilter =
       {
         page: (pageIndex + 1), // mat-paginator is zero-based index. API is 1-based index.
         per_page: pageSize,
@@ -79,8 +79,8 @@ export class BikeTheftsService
         requestData.occurred_before = filter?.to;
       }
 
-      this._serverService.sendRequestV2_IncidentsList(requestData).then(
-        (response: { incidents: iIncidentV2[] }) =>
+      this._serverV2Service.sendRequest_IncidentsList(requestData).then(
+        (response: { incidents: iIncident[] }) =>
         {
           console.debug("Bike-Thefts.service - loadBerlinTheftsIncidents - Success");
 
@@ -117,8 +117,8 @@ export class BikeTheftsService
       }
       else
       {
-        this._serverService.sendRequestV2_IncidentById(incidentId).then(
-          (response: { incident: iIncidentV2 }) =>
+        this._serverV2Service.sendRequest_IncidentById(incidentId).then(
+          (response: { incident: iIncident }) =>
           {
             console.debug("Bike-Thefts.service - getIncident - Success");
 
@@ -138,7 +138,7 @@ export class BikeTheftsService
     return promise;
   }
 
-  private _parseBikeTheftV2(incident: iIncidentV2): iBikeTheft
+  private _parseBikeTheftV2(incident: iIncident): iBikeTheft
   {
     const bikeTheft: iBikeTheft =
     {
