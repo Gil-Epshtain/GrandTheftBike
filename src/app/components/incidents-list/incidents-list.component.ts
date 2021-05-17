@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
-import { IncidentsService, iBikeTheft } from './../../services/incidents/incidents.service';
+import { BikeTheftsService, iBikeTheft } from '../../services/bike-thefts/bike-thefts.service';
 
 interface iListState
 {
@@ -24,7 +24,7 @@ export class IncidentsListComponent implements OnInit
 
   public constructor(
     private _router: Router,
-    private _incidentsService: IncidentsService)
+    private _bikeTheftsService: BikeTheftsService)
   {
     console.log("Incidents-List.component - ctor");
   }
@@ -48,7 +48,7 @@ export class IncidentsListComponent implements OnInit
 
   private _loadTheftsList(): void
   {
-    this._incidentsService.loadBerlinThefts(this.listState.pageIndex, this.listState.pageSize).then(
+    this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then(
       (bikeTheftsList: iBikeTheft[]) =>
       {
         this.theftsList = bikeTheftsList;

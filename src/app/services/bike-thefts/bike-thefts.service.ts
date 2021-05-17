@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ServerService, iIncidentsFilterV2, iIncidentV2 } from './../server/server.service';
+import { ServerService, iIncidentsFilterV2, iIncidentV2 } from '../server/server.service';
 
 export interface iTheftFilter
 {
@@ -32,21 +32,25 @@ export interface iBikeTheft
 @Injectable({
   providedIn: 'root'
 })
-export class IncidentsService
+export class BikeTheftsService
 {
+  // Save thefts-list in cache when loading.
+  // When fetching single theft, search in cache before requesting from server.
   private _cachedBikeTheft: iBikeTheft[];
 
   public constructor(
     private _serverService: ServerService)
   {
-    console.log("Incidents.service - ctor");
+    console.log("Bike-Thefts.service - ctor");
 
     this._cachedBikeTheft = [];
   }
 
-  public loadBerlinThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iBikeTheft[]>
+  // -------------------------------------------------------------------------------------------
+  // API V2
+  public loadBerlinTheftsIncidents(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iBikeTheft[]>
   {
-    console.log("Incidents.service - loadIncidents");
+    console.log("Bike-Thefts.service - loadBerlinTheftsIncidents");
 
     const promise = new Promise<iBikeTheft[]>((resolve, reject) =>
     {
@@ -78,18 +82,17 @@ export class IncidentsService
       this._serverService.sendRequestV2_IncidentsList(requestData).then(
         (response: { incidents: iIncidentV2[] }) =>
         {
-          console.debug("Incidents.service - loadIncidents - Success");
+          console.debug("Bike-Thefts.service - loadBerlinTheftsIncidents - Success");
 
           const bikeTheftsList: iBikeTheft[] = response.incidents.map(incident => this._parseBikeTheftV2(incident));
 
-          // Save incidentsList for cache
           this._cachedBikeTheft = bikeTheftsList;
 
           resolve(bikeTheftsList);
         },
         (error) =>
         {
-          console.error(`Incidents.service - loadIncidents - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
+          console.error(`Bike-Thefts.service - loadBerlinTheftsIncidents - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
 
           reject();
         });
@@ -100,24 +103,24 @@ export class IncidentsService
 
   public getIncident(incidentId: number): Promise<iBikeTheft>
   {
-    console.log("Incidents.service - getIncident");
+    console.log("Bike-Thefts.service - getIncident");
 
     const promise = new Promise<iBikeTheft>((resolve, reject) =>
     {
       // Search incident in cache, if not found load from server
-      const localIncident = this._cachedBikeTheft.find(incident => incident.id == incidentId);
-      if (localIncident)
+      const localTheft = this._cachedBikeTheft.find(incident => incident.id == incidentId);
+      if (localTheft)
       {
-        console.debug("Incidents.service - getIncident - Loaded from cache");
+        console.debug("Bike-Thefts.service - getIncident - Loaded from cache");
 
-        resolve(localIncident);
+        resolve(localTheft);
       }
       else
       {
         this._serverService.sendRequestV2_IncidentById(incidentId).then(
           (response: { incident: iIncidentV2 }) =>
           {
-            console.debug("Incidents.service - getIncident - Success");
+            console.debug("Bike-Thefts.service - getIncident - Success");
 
             const bikeTheft: iBikeTheft = this._parseBikeTheftV2(response.incident);
 
@@ -125,7 +128,7 @@ export class IncidentsService
           },
           (error) =>
           {
-            console.error(`Incidents.service - getIncident - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
+            console.error(`Bike-Thefts.service - getIncident - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
 
             reject();
           });
@@ -155,4 +158,7 @@ export class IncidentsService
 
     return bikeTheft;
   }
+
+  // -------------------------------------------------------------------------------------------
+  // API V3
 }
