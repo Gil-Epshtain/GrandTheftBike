@@ -1,40 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ServerService, iIncidentRequest } from './../server/server.service';
-
-export enum eIncidentType
-{
-  Crash = "Crash",
-  Hazard = "Hazard",
-  Theft = "Theft",
-  Unconfirmed = "Unconfirmed"
-}
-
-export interface iIncident
-{
-  id: number;
-  title: string;
-  description: string;
-  address: string;
-  occurred_at: number, // dateTime
-  updated_at: number, // dateTime
-  url: string;
-  source:
-  {
-    name: string;
-    html_url: string;
-    api_url: string;
-  },
-  media:
-  {
-    image_url: string;
-    image_url_thumb: string;
-  },
-  location_type: any; // ??
-  location_description: any; // ??
-  type: eIncidentType;
-  type_properties: { [propertyKey: string]: any; }; // different objects per each type
-}
+import { ServerService, iIncidentsFilterV2, iIncidentV2 } from './../server/server.service';
 
 export interface iTheftFilter
 {
@@ -43,28 +9,48 @@ export interface iTheftFilter
   to?: number;
 }
 
+export interface iBikeTheft
+{
+  id: number;
+  title: string;
+  description: string;
+  dateTheft: number;
+  dateReport: number;
+  address: string;
+  location:
+  {
+    lat: number;
+    lng: number;
+  };
+  media:
+  {
+    imageUrl: string;
+    imageUrlThumb: string;
+  };
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class IncidentsService
 {
-  private _cachedIncidents: iIncident[];
+  private _cachedBikeTheft: iBikeTheft[];
 
   public constructor(
     private _serverService: ServerService)
   {
     console.log("Incidents.service - ctor");
 
-    this._cachedIncidents = [];
+    this._cachedBikeTheft = [];
   }
 
-  public loadBerlinThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iIncident[]>
+  public loadBerlinThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iBikeTheft[]>
   {
     console.log("Incidents.service - loadIncidents");
 
-    const promise = new Promise<iIncident[]>((resolve, reject) =>
+    const promise = new Promise<iBikeTheft[]>((resolve, reject) =>
     {
-      const requestData: iIncidentRequest =
+      const requestData: iIncidentsFilterV2 =
       {
         page: (pageIndex + 1), // mat-paginator is zero-based index. API is 1-based index.
         per_page: pageSize,
@@ -89,15 +75,17 @@ export class IncidentsService
         requestData.occurred_before = filter?.to;
       }
 
-      this._serverService.sendRequest_IncidentsList(requestData).then(
-        (response) =>
+      this._serverService.sendRequestV2_IncidentsList(requestData).then(
+        (response: { incidents: iIncidentV2[] }) =>
         {
           console.debug("Incidents.service - loadIncidents - Success");
 
-          // Save incidentsList for cache
-          this._cachedIncidents = response.incidents;
+          const bikeTheftsList: iBikeTheft[] = response.incidents.map(incident => this._parseBikeTheftV2(incident));
 
-          resolve(response.incidents);
+          // Save incidentsList for cache
+          this._cachedBikeTheft = bikeTheftsList;
+
+          resolve(bikeTheftsList);
         },
         (error) =>
         {
@@ -110,14 +98,14 @@ export class IncidentsService
     return promise;
   }
 
-  public getIncident(incidentId: number): Promise<iIncident>
+  public getIncident(incidentId: number): Promise<iBikeTheft>
   {
     console.log("Incidents.service - getIncident");
 
-    const promise = new Promise<iIncident>((resolve, reject) =>
+    const promise = new Promise<iBikeTheft>((resolve, reject) =>
     {
       // Search incident in cache, if not found load from server
-      const localIncident = this._cachedIncidents.find(incident => incident.id == incidentId);
+      const localIncident = this._cachedBikeTheft.find(incident => incident.id == incidentId);
       if (localIncident)
       {
         console.debug("Incidents.service - getIncident - Loaded from cache");
@@ -126,12 +114,14 @@ export class IncidentsService
       }
       else
       {
-        this._serverService.sendRequest_incidentById(incidentId).then(
-          (response) =>
+        this._serverService.sendRequestV2_IncidentById(incidentId).then(
+          (response: { incident: iIncidentV2 }) =>
           {
             console.debug("Incidents.service - getIncident - Success");
 
-            resolve(response.incident);
+            const bikeTheft: iBikeTheft = this._parseBikeTheftV2(response.incident);
+
+            resolve(bikeTheft);
           },
           (error) =>
           {
@@ -143,5 +133,26 @@ export class IncidentsService
     });
 
     return promise;
+  }
+
+  private _parseBikeTheftV2(incident: iIncidentV2): iBikeTheft
+  {
+    const bikeTheft: iBikeTheft =
+    {
+      id:           incident.id,
+      title:        incident.title,
+      description:  incident.description,
+      dateTheft:    incident.occurred_at,
+      dateReport:   incident.updated_at,
+      address:      incident.address,
+      location:     null, // missing in api v2?
+      media:
+      {
+        imageUrl:      incident.media.image_url,
+        imageUrlThumb: incident.media.image_url_thumb
+      }
+    };
+
+    return bikeTheft;
   }
 }

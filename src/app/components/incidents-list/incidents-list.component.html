@@ -4,22 +4,22 @@
   </div>
   <div class="incidents-list">
     <!-- card -->
-    <mat-card *ngFor="let incident of theftsList"
+    <mat-card *ngFor="let bikeTheft of theftsList"
               class="incident-card">
       <!-- header -->
       <mat-card-header>
-        <mat-card-title>{{ incident.title }}</mat-card-title>
-        <mat-card-subtitle>{{ incident.address }}</mat-card-subtitle>
+        <mat-card-title>{{ bikeTheft.title }}</mat-card-title>
+        <mat-card-subtitle>{{ bikeTheft.address }}</mat-card-subtitle>
       </mat-card-header>
       <!-- img -->
       <img mat-card-image
-           [src]="incident.media.image_url_thumb"
+           [src]="bikeTheft.media.imageUrlThumb"
            alt="Missing Photo"
            class="card-img">
       <!-- body text -->
       <mat-card-content class="card-body">
         <p>
-          {{ incident.description }}
+          {{ bikeTheft.description }}
         </p>
       </mat-card-content>
       <!-- buttons -->

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { IncidentsService, iIncident } from './../../services/incidents/incidents.service';
+import { IncidentsService, iBikeTheft } from './../../services/incidents/incidents.service';
 
 @Component({
   selector: 'app-incident-details',
@@ -10,7 +10,7 @@ import { IncidentsService, iIncident } from './../../services/incidents/incident
 })
 export class IncidentDetailsComponent implements OnInit
 {
-  public incident: iIncident;
+  public bikeTheft: iBikeTheft;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -25,11 +25,11 @@ export class IncidentDetailsComponent implements OnInit
     if (incidentId)
     {
       this._incidentsService.getIncident(incidentId).then(
-        (incident: iIncident) => {
-          this.incident = incident;
+        (bikeTheft: iBikeTheft) => {
+          this.bikeTheft = bikeTheft;
         },
         () => {
-          this.incident = null;
+          this.bikeTheft = null;
         })
     }
     else

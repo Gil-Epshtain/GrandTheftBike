@@ -11,26 +11,26 @@
 
 <div class="incident-details-container">
 
-  <div *ngIf="incident" class="incident-details">
-    <h1>{{ incident.title }}</h1>
+  <div *ngIf="bikeTheft" class="incident-details">
+    <h1>{{ bikeTheft.title }}</h1>
     <p>
-      {{ incident.description }}
+      {{ bikeTheft.description }}
     </p>
     <div>
-      Date of theft: {{ incident.occurred_at }}
+      Date of theft: {{ bikeTheft.dateTheft }}
     </div>
     <div>
-      Date of report of theft: {{ incident.updated_at }}
+      Date of report of theft: {{ bikeTheft.dateReport }}
     </div>
     <div>
       Location (map) TBD
     </div>
     <div>
-      <img [src]="incident.media.image_url" />
+      <img [src]="bikeTheft.media.imageUrl" />
     </div>
   </div>
 
-  <div *ngIf="!incident" class="empty-incident">
+  <div *ngIf="!bikeTheft" class="empty-incident">
     <mat-icon class="icon-empty">report_gmailerrorred</mat-icon>
     <div>
       Incident not found

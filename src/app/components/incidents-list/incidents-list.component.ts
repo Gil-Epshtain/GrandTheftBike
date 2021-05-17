@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
-import { IncidentsService, iIncident } from './../../services/incidents/incidents.service';
+import { IncidentsService, iBikeTheft } from './../../services/incidents/incidents.service';
 
 interface iListState
 {
@@ -19,7 +19,7 @@ interface iListState
 })
 export class IncidentsListComponent implements OnInit
 {
-  public theftsList: iIncident[];
+  public theftsList: iBikeTheft[];
   public listState: iListState;
 
   public constructor(
@@ -49,9 +49,9 @@ export class IncidentsListComponent implements OnInit
   private _loadTheftsList(): void
   {
     this._incidentsService.loadBerlinThefts(this.listState.pageIndex, this.listState.pageSize).then(
-      (incidentList: iIncident[]) =>
+      (bikeTheftsList: iBikeTheft[]) =>
       {
-        this.theftsList = incidentList;
+        this.theftsList = bikeTheftsList;
       },
       () => // error
       {
@@ -59,11 +59,11 @@ export class IncidentsListComponent implements OnInit
       });
   }
 
-  public onClick_Incident(incident: iIncident): void
+  public onClick_Incident(bikeTheft: iBikeTheft): void
   {
     console.log("Incidents-List.component - onClick_Incident");
 
-    this._router.navigate(['incident', incident.id]);
+    this._router.navigate(['incident', bikeTheft.id]);
   }
 
   public onChange_Paginator(event: PageEvent): void
