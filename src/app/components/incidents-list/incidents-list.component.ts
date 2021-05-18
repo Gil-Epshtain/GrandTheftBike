@@ -39,7 +39,7 @@ export class IncidentsListComponent implements OnInit
   {
     this.listState =
     {
-      length: 120, // $G$ how to get this?
+      length: 0,
       pageSize: 10, // default 10
       pageSizeOptions: [5, 10, 25, 100],
       pageIndex: 0
@@ -50,13 +50,15 @@ export class IncidentsListComponent implements OnInit
   {
     //this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then( // API V2
     this._bikeTheftsService.loadBerlinBikeThefts(this.listState.pageIndex, this.listState.pageSize).then( // API V3
-      (bikeTheftsList: iBikeTheft[]) =>
+      (result) =>
       {
-        this.theftsList = bikeTheftsList;
+        this.theftsList       = result.list;
+        this.listState.length = result.total
       },
       () => // error
       {
         this.theftsList = [];
+        this.listState.length = 0;
       });
   }
 

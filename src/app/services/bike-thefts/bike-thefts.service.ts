@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ServerV2Service, iIncidentsFilter, iIncident } from '../server-v2/server-v2.service';
-import { ServerV3Service, iSearchRequest, iSearchResponse, iBikeResponse } from '../server-v3/server-v3.service';
+import { ServerV3Service, iSearchRequest, iSearchResponse, iSearchCountRequest, iBikeResponse } from '../server-v3/server-v3.service';
 
 export interface iTheftFilter
 {
@@ -167,17 +167,22 @@ export class BikeTheftsService
 
   // -------------------------------------------------------------------------------------------
   // API V3
-  public loadBerlinBikeThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<iBikeTheft[]>
+  public loadBerlinBikeThefts(pageIndex: number, pageSize: number, filter?: iTheftFilter): Promise<
+    {
+      list: iBikeTheft[],
+      total: number
+    }>
   {
     console.log("Bike-Thefts.service - loadBerlinBikeThefts");
 
-    const promise = new Promise<iBikeTheft[]>((resolve, reject) =>
-    {
-      const requestData: iSearchRequest =
+    const promise = new Promise<
       {
-        page: (pageIndex + 1), // mat-paginator is zero-based index. API is 1-based index.
-        per_page: pageSize,
-
+        list: iBikeTheft[],
+        total: number
+      }>((resolve, reject) =>
+    {
+      const countRequestData: iSearchCountRequest =
+      {
         // Const filters
         location: BERLIN_CENTER,
         distance: METROPOLITAN_SIZE,
@@ -187,34 +192,45 @@ export class BikeTheftsService
       // User filters
       if (filter?.title)
       {
-        requestData.query = filter?.title;
+        countRequestData.query = filter?.title;
       }
       // $G$ filter from/to
       // if (filter?.from)
       // {
-      //   requestData.occurred_after = filter?.from;
+      //   countRequestData.occurred_after = filter?.from;
       // }
       // if (filter?.to)
       // {
-      //   requestData.occurred_before = filter?.to;
+      //   countRequestData.occurred_before = filter?.to;
       // }
 
-      this._serverV3Service.sendRequest_BikesList(requestData).then(
-        (response: { bikes: iSearchResponse[] }) =>
-        {
-          console.debug("Bike-Thefts.service - loadBerlinBikeThefts - Success");
+      const requestData: iSearchRequest = Object.assign({
+        page: (pageIndex + 1), // mat-paginator is zero-based index. API is 1-based index.
+        per_page: pageSize,
+      }, countRequestData);
 
-          const bikeTheftsList: iBikeTheft[] = response.bikes.map(bike => this._parsePartialBikeTheftV3(bike));
+      Promise.all([
+        this._serverV3Service.sendRequest_BikesList(requestData),
+        this._serverV3Service.sendRequest_BikesListCount(countRequestData)
+      ]).then(
+        (result) =>
+        {
+          const search = result[0],
+                 count = result[1];
+
+          const bikeTheftsList: iBikeTheft[] = search.bikes.map(bike => this._parsePartialBikeTheftV3(bike));
 
           // NO CACHE! Can't cache in API v3
           // Response difference between searching bikes-list and loafing single bike >> iSearchResponse != iBikeResponse
-          ////this._cachedBikeTheft = bikeTheftsList;
 
-          resolve(bikeTheftsList);
+          resolve({
+            list: bikeTheftsList,
+            total: count.stolen
+          });
         },
-        (error) =>
+        () =>
         {
-          console.error(`Bike-Thefts.service - loadBerlinBikeThefts - Failure [statusCode: '${ error.status }'; message: '${ error.message }']`);
+          console.error("Bike-Thefts.service - loadBerlinBikeThefts - Failure");
 
           reject();
         });

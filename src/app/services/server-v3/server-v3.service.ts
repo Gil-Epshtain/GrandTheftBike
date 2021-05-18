@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-export interface iSearchRequest
+export interface iSearchCountRequest
 {
-  page?: number;
-  per_page?: number;
   query?: string;
   serial?: string;
   manufacturer?: string;
@@ -12,6 +10,12 @@ export interface iSearchRequest
   location?: string;
   distance?: number;
   stolenness?: string;
+}
+
+export interface iSearchRequest extends iSearchCountRequest
+{
+  page?: number;
+  per_page?: number;
 }
 
 export interface iSearchResponse
@@ -154,11 +158,16 @@ export class ServerV3Service
     return this._GET(url, params);
   }
 
-  public sendRequest_BikesListCount(filter: iSearchRequest): Promise<any>
+  public sendRequest_BikesListCount(filter: iSearchCountRequest): Promise<{ proximity: number; stolen: number; non: number; }>
   {
     console.log("Server-V3.service - sendRequest_BikesListCount");
 
-    throw new Error("sendRequest_BikesListCount - TBD"); // $G$
+    const url: string = `${ this._serverUrl }/v3/search/count`;
+
+    const paramsObj = filter as { [param: string]: string };
+    const params: HttpParams = new HttpParams({ fromObject: paramsObj });
+
+    return this._GET(url, params);
   }
 
   public sendRequest_BikeById(bikeId: number): Promise<{ bike: iBikeResponse; }>
