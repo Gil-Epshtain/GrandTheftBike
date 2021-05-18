@@ -1,39 +1,97 @@
 <!-- TBD
-  Case title
-- Written description of stolen item
-- Date of theft
-- Date of report of theft
+V Case title
+V Written description of stolen item
+V Date of theft
+V Date of report of theft
 - Location of theft that will be displayed on a map (google map or equivalent)
-- Picture of the stolen bike, if available 
+V Picture of the stolen bike, if available
 
-- empty
+V empty
+V loading
 -->
 
 <div class="incident-details-container">
+  <div [ngSwitch]="state">
 
-  <div *ngIf="bikeTheft" class="incident-details">
-    <h1>{{ bikeTheft.title }}</h1>
-    <p>
-      {{ bikeTheft.description }}
-    </p>
-    <div>
-      Date of theft: {{ bikeTheft.dateTheft | dateTime }}
+    <!-- *** Info *** -->
+    <div *ngSwitchCase="'success'" class="incident-details">
+      <!-- * Bike info * -->
+      <div class="row">
+        <!-- info text -->
+        <div class="column">
+          <div class="title">
+            {{ bikeTheft.title }}
+          </div>
+          <div class="property">
+            <div class="key">Description:</div>
+            <div class="value">{{ bikeTheft.description }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Serial:</div>
+            <div class="value">{{ bikeTheft.serial }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Model:</div>
+            <div class="value">{{ bikeTheft.model }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Manufacturer:</div>
+            <div class="value">{{ bikeTheft.manufacturer }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Year:</div>
+            <div class="value">{{ bikeTheft.year }}</div>
+          </div>
+        </div>
+        <!-- img -->
+        <div class="column">
+          <div class="img" [ngStyle]="{ 'background-image': 'url(' + bikeTheft.media.imageUrl + ')'}"></div>
+        </div>
+      </div>
+      <!-- * Theft info * -->
+      <div class="row">
+        <!-- theft text -->
+        <div class="column">
+          <div class="title">
+            Theft Information
+          </div>
+          <div class="property">
+            <div class="key">Date of theft:</div>
+            <div class="value">{{ bikeTheft.dateTheft | dateTime }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Date of report of theft:</div>
+            <div class="value">{{ bikeTheft.dateReport | dateTime }}</div>
+          </div>
+          <div class="property">
+            <div class="key">Stolen from:</div>
+            <div class="value">{{ bikeTheft.address }}</div>
+          </div>
+        </div>
+        <!-- map -->
+        <div class="column">
+          <div class="map">
+            Location (map) TBD
+          </div>
+        </div>
+      </div>
     </div>
-    <div>
-      Date of report of theft: {{ bikeTheft.dateReport | dateTime }}
-    </div>
-    <div>
-      Location (map) TBD
-    </div>
-    <div>
-      <img [src]="bikeTheft.media.imageUrl" />
-    </div>
-  </div>
 
-  <div *ngIf="!bikeTheft" class="empty-incident">
-    <mat-icon class="icon-empty">report_gmailerrorred</mat-icon>
-    <div>
-      Incident not found
+    <!-- *** Loading *** -->
+    <div *ngSwitchCase="'loading'" class="no-info">
+      <mat-icon class="no-info-icon">hourglass_top</mat-icon>
+      <div>
+       Loading...
+      </div>
     </div>
+
+    <!-- *** Not Found *** -->
+    <div *ngSwitchCase="'error'" class="no-info">
+      <mat-icon class="no-info-icon">report_gmailerrorred</mat-icon>
+      <div>
+        Incident not found!
+      </div>
+    </div>
+
   </div>
 </div>

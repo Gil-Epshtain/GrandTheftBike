@@ -28,10 +28,17 @@ export interface iBikeTheft
     imageUrl: string;
     imageUrlThumb: string;
   };
+
+  serial?: string;
+  model?: string;
+  manufacturer?: string;
+  year?: string | number;
 }
 
 const BERLIN_CENTER = "52.50985, 13.40051";
 const METROPOLITAN_SIZE = 50;
+
+const EMPTY_LABEL = "-";
 
 @Injectable({
   providedIn: 'root'
@@ -280,7 +287,12 @@ export class BikeTheftsService
       {
         imageUrl:      rawBikeObj.large_img,
         imageUrlThumb: rawBikeObj.thumb
-      }
+      },
+
+      serial:       rawBikeObj.serial             || EMPTY_LABEL,
+      model:        rawBikeObj.frame_model        || EMPTY_LABEL,
+      manufacturer: rawBikeObj.manufacturer_name  || EMPTY_LABEL,
+      year:         rawBikeObj.year               || EMPTY_LABEL
     };
 
     return bikeTheft;
@@ -305,7 +317,12 @@ export class BikeTheftsService
       {
         imageUrl:      rawBikeObj.large_img,
         imageUrlThumb: rawBikeObj.thumb
-      }
+      },
+
+      serial:       rawBikeObj.serial             || EMPTY_LABEL,
+      model:        rawBikeObj.frame_model        || EMPTY_LABEL,
+      manufacturer: rawBikeObj.manufacturer_name  || EMPTY_LABEL,
+      year:         rawBikeObj.year               || EMPTY_LABEL
     };
 
     return bikeTheft;

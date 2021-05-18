@@ -3,6 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 
 import { BikeTheftsService, iBikeTheft } from '../../services/bike-thefts/bike-thefts.service';
 
+enum eFormState
+{
+  Loading = 'loading',
+  Success = 'success',
+  Error   = 'error'
+}
 @Component({
   selector: 'app-incident-details',
   templateUrl: './incident-details.component.html',
@@ -11,6 +17,7 @@ import { BikeTheftsService, iBikeTheft } from '../../services/bike-thefts/bike-t
 export class IncidentDetailsComponent implements OnInit
 {
   public bikeTheft: iBikeTheft;
+  public state: eFormState;
 
   public constructor(
     private _activatedRoute: ActivatedRoute,
@@ -21,6 +28,8 @@ export class IncidentDetailsComponent implements OnInit
 
   public ngOnInit(): void
   {
+    this.state = eFormState.Loading;
+
     const id: number = this._activatedRoute.snapshot.params.id;
     if (id)
     {
@@ -28,15 +37,16 @@ export class IncidentDetailsComponent implements OnInit
       this._bikeTheftsService.getBikeTheft(id).then( // API V3
         (bikeTheft: iBikeTheft) => {
           this.bikeTheft = bikeTheft;
+          this.state = eFormState.Success;
         },
         () => {
           this.bikeTheft = null;
+          this.state = eFormState.Error;
         })
     }
     else
     {
       console.error("Incidents-Details.component - ngOnInit - missing incidentId");
     }
-
   }
 }
