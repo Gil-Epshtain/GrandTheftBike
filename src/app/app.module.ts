@@ -14,6 +14,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // App
 import { AppRoutingModule } from './app-routing.module';
 
+import { DateTimePipe } from './pipes/date-time/date-time.pipe';
 import { AppComponent } from './components/root/app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -22,6 +23,7 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
 
 @NgModule({
   declarations: [
+    DateTimePipe,
     AppComponent,
     HeaderComponent,
     FooterComponent,

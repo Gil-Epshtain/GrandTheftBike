@@ -17,10 +17,10 @@
       {{ bikeTheft.description }}
     </p>
     <div>
-      Date of theft: {{ bikeTheft.dateTheft }}
+      Date of theft: {{ bikeTheft.dateTheft | dateTime }}
     </div>
     <div>
-      Date of report of theft: {{ bikeTheft.dateReport }}
+      Date of report of theft: {{ bikeTheft.dateReport | dateTime }}
     </div>
     <div>
       Location (map) TBD

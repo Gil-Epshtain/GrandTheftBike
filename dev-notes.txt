@@ -7,7 +7,7 @@ Tasks
   Done!
 
 3. Total number of thefts.
-  How to get this, not in API?
+  Done
 
 4. When you click on a case, a new page will appearThis page shall display:
   - Case title

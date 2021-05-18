@@ -292,14 +292,14 @@ export class BikeTheftsService
     {
       id:           rawBikeObj.id,
       title:        rawBikeObj.title,
-      description:  rawBikeObj.stolen_record.theft_description, // description on main object is empty
+      description:  rawBikeObj.stolen_record?.theft_description || rawBikeObj.description, // description on main object is empty
       dateTheft:    rawBikeObj.date_stolen,
       dateReport:   rawBikeObj.registration_created_at,
       address:      rawBikeObj.stolen_location,
       location:
       {
-        lat: rawBikeObj.stolen_record.latitude,
-        lng: rawBikeObj.stolen_record.longitude
+        lat: rawBikeObj.stolen_record?.latitude,
+        lng: rawBikeObj.stolen_record?.longitude
       },
       media:
       {
