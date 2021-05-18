@@ -44,8 +44,13 @@ V loading
           </div>
         </div>
         <!-- img -->
-        <div class="column">
+        <div class="column" *ngIf="bikeTheft.media.imageUrl">
           <div class="img" [ngStyle]="{ 'background-image': 'url(' + bikeTheft.media.imageUrl + ')'}"></div>
+        </div>
+        <div class="column" *ngIf="!bikeTheft.media.imageUrl">
+          <div class="property">
+            <div class="value value-error">No Image</div>
+          </div>
         </div>
       </div>
       <!-- * Theft info * -->
@@ -67,12 +72,20 @@ V loading
             <div class="key">Stolen from:</div>
             <div class="value">{{ bikeTheft.address }}</div>
           </div>
+          <div class="property">
+            <div class="key">Coordinates:</div>
+            <div class="value" *ngIf="(bikeTheft.location?.lat && bikeTheft.location?.lng)">
+              <!-- limit to max 5 decimal digits -->
+              {{ bikeTheft.location.lat | number: '.0-5' }}, {{ bikeTheft.location.lng | number: '.0-5' }}
+            </div>
+            <div class="value value-error" *ngIf="!(bikeTheft.location?.lat && bikeTheft.location?.lng)">
+              Missing Location
+            </div>
+          </div>
         </div>
         <!-- map -->
         <div class="column">
-          <div class="map">
-            Location (map) TBD
-          </div>
+          <app-map [point]="bikeTheft.location"></app-map>
         </div>
       </div>
     </div>

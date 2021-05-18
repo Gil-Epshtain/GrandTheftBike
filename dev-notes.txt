@@ -1,13 +1,13 @@
 Tasks
 ----------
 1. List thefts in the Berlin Metropolitan area.
-  Done!
+Done!
 
 2. Ten cases per page (pagination)
-  Done!
+Done!
 
 3. Total number of thefts.
-  Done
+Done!
 
 4. When you click on a case, a new page will appearThis page shall display:
   - Case title
@@ -16,6 +16,7 @@ Tasks
   - Date of report of theft
   - Location of theft that will be displayed on a map (google map or equivalent)
   - Picture of the stolen bike, if available
+Done!
 
 5. Search function must be able to filter by case title, alternatively by date, or both.
 

@@ -20,6 +20,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { IncidentsListComponent } from './components/incidents-list/incidents-list.component';
 import { IncidentDetailsComponent } from './components/incident-details/incident-details.component';
+import { MapComponent } from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { IncidentDetailsComponent } from './components/incident-details/incident
     HeaderComponent,
     FooterComponent,
     IncidentsListComponent,
-    IncidentDetailsComponent
+    IncidentDetailsComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ $accent-color: #69f0ae;
     .row
     {
       display: flex;
+      margin-top: 12px;
 
       .column
       {
@@ -40,6 +41,10 @@ $accent-color: #69f0ae;
       {
         color: $accent-color;
         padding-left: 6px;
+      }
+      .value-error
+      {
+        color: red;
       }
     }
 
