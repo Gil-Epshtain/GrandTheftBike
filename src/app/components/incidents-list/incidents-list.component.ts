@@ -4,12 +4,20 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { BikeTheftsService, iBikeTheft } from '../../services/bike-thefts/bike-thefts.service';
 
-interface iListState
+interface iPagingState
 {
   length: number;
   pageSize: number;
   pageSizeOptions: number[];
   pageIndex: number;
+}
+
+enum eLoadingState
+{
+  Loading = 'loading',
+  Success = 'success',
+  Empty = 'empty',
+  Error = 'error'
 }
 
 @Component({
@@ -20,7 +28,9 @@ interface iListState
 export class IncidentsListComponent implements OnInit
 {
   public theftsList: iBikeTheft[];
-  public listState: iListState;
+  
+  public pagingState: iPagingState;
+  public loadingState: eLoadingState;
 
   public constructor(
     private _router: Router,
@@ -37,7 +47,7 @@ export class IncidentsListComponent implements OnInit
 
   private _initListState(): void
   {
-    this.listState =
+    this.pagingState =
     {
       length: 0,
       pageSize: 10, // default 10
@@ -48,17 +58,23 @@ export class IncidentsListComponent implements OnInit
 
   private _loadTheftsList(): void
   {
+    this.loadingState = eLoadingState.Loading;
+
     //this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then( // API V2
-    this._bikeTheftsService.loadBerlinBikeThefts(this.listState.pageIndex, this.listState.pageSize).then( // API V3
+    this._bikeTheftsService.loadBerlinBikeThefts(this.pagingState.pageIndex, this.pagingState.pageSize).then( // API V3
       (result) =>
       {
-        this.theftsList       = result.list;
-        this.listState.length = result.total
+        this.theftsList = result.list;
+
+        this.pagingState.length = result.total
+        this.loadingState = this.theftsList.length ? eLoadingState.Success : eLoadingState.Empty;
       },
       () => // error
       {
         this.theftsList = [];
-        this.listState.length = 0;
+
+        this.pagingState.length = 0;
+        this.loadingState = eLoadingState.Error;
       });
   }
 
@@ -81,11 +97,11 @@ export class IncidentsListComponent implements OnInit
     //   previousPageIndex: number;
     // }
 
-    if (this.listState.pageIndex != event.pageIndex ||
-        this.listState.pageSize  != event.pageSize)
+    if (this.pagingState.pageIndex != event.pageIndex ||
+        this.pagingState.pageSize  != event.pageSize)
     {
-      this.listState.pageIndex = event.pageIndex;
-      this.listState.pageSize  = event.pageSize;
+      this.pagingState.pageIndex = event.pageIndex;
+      this.pagingState.pageSize  = event.pageSize;
 
       this._loadTheftsList();
     }

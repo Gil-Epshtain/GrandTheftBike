@@ -2,43 +2,69 @@
   <div class="filters">
     Filters: TBD
   </div>
-  <div class="incidents-list">
-    <!-- card -->
-    <mat-card *ngFor="let bikeTheft of theftsList"
-              class="incident-card">
-      <!-- header -->
-      <mat-card-header>
-        <mat-card-title>{{ bikeTheft.title }}</mat-card-title>
-        <mat-card-subtitle>{{ bikeTheft.address }}</mat-card-subtitle>
-      </mat-card-header>
-      <!-- img -->
-      <img mat-card-image
-           [src]="bikeTheft.media.imageUrlThumb"
-           alt="Missing Photo"
-           class="card-img">
-      <!-- body text -->
-      <mat-card-content class="card-body">
-        <p>
-          {{ bikeTheft.description }}
-        </p>
-      </mat-card-content>
-      <!-- buttons -->
-      <mat-card-actions class="card-buttons">
-        <button mat-button
-                (click)="onClick_Incident(bikeTheft)"
-                color="accent">
-          More Details
-        </button>
-      </mat-card-actions>
-    </mat-card>
 
-  </div>
-  <div class="list-paginator">
-    <mat-paginator [length]="listState.length"
-                   [pageSize]="listState.pageSize"
-                   [pageSizeOptions]="listState.pageSizeOptions"
-                   (page)="onChange_Paginator($event)"
-                   color="accent">
-    </mat-paginator>
+  <div [ngSwitch]="loadingState" class="switch">
+
+    <div *ngSwitchCase="'success'" class="switch-case">
+      <div class="incidents-list">
+        <!-- card -->
+        <mat-card *ngFor="let bikeTheft of theftsList"
+                  class="incident-card">
+          <!-- header -->
+          <mat-card-header>
+            <mat-card-title>{{ bikeTheft.title }}</mat-card-title>
+            <mat-card-subtitle>{{ bikeTheft.address }}</mat-card-subtitle>
+          </mat-card-header>
+          <!-- img -->
+          <img mat-card-image
+              [src]="bikeTheft.media.imageUrlThumb"
+              alt="Missing Photo"
+              class="card-img">
+          <!-- body text -->
+          <mat-card-content class="card-body">
+            <p>
+              {{ bikeTheft.description }}
+            </p>
+          </mat-card-content>
+          <!-- buttons -->
+          <mat-card-actions class="card-buttons">
+            <button mat-button
+                    (click)="onClick_Incident(bikeTheft)"
+                    color="accent">
+              More Details
+            </button>
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+      <div class="list-paginator">
+        <mat-paginator [length]="pagingState.length"
+                      [pageSize]="pagingState.pageSize"
+                      [pageSizeOptions]="pagingState.pageSizeOptions"
+                      (page)="onChange_Paginator($event)"
+                      color="accent">
+        </mat-paginator>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'loading'" class="switch-case">
+      <div class="list-state">
+        <mat-spinner color="accent" diameter="128" class="state-img"></mat-spinner>
+        Loading...
+      </div>
+    </div>
+    <div *ngSwitchCase="'empty'" class="switch-case">
+      <div class="list-state">
+        <mat-icon class="state-img">warning</mat-icon>
+        No results found
+      </div>
+    </div>
+    <div *ngSwitchCase="'error'" class="switch-case">
+      <div class="list-state">
+        <mat-icon class="state-img">error</mat-icon>
+        Error loading list
+      </div>
+    </div>
+
   </div>
 </div>
