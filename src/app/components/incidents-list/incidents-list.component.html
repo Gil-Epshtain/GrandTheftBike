@@ -51,10 +51,11 @@
       <!-- paginator -->
       <div class="list-paginator">
         <mat-paginator [length]="pagingState.length"
-                      [pageSize]="pagingState.pageSize"
-                      [pageSizeOptions]="pagingState.pageSizeOptions"
-                      (page)="onChange_Paginator($event)"
-                      color="accent">
+                       [pageSize]="pagingState.pageSize"
+                       [pageSizeOptions]="pagingState.pageSizeOptions"
+                       [pageIndex]="pagingState.pageIndex"
+                       (page)="onChange_Paginator($event)"
+                       color="accent">
         </mat-paginator>
       </div>
     </div>
