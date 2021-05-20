@@ -1,10 +1,22 @@
 <div class="incidents-list-container">
   <div class="filters">
-    Filters: TBD
+    <!-- Filter -->
+    <mat-form-field appearance="legacy" color="accent" class="filter-text">
+      <span matPrefix><mat-icon class="filter-icon">search</mat-icon></span>
+      <input matInput
+            [(ngModel)]="filterValue"
+            (keyup)="onKeyUp_Filter($event.target.value)"
+            class=""
+            placeholder="Filter">
+      <button mat-button *ngIf="filterValue" matSuffix mat-icon-button (click)="filterValue = ''; runFilter();">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
 
   <div [ngSwitch]="loadingState" class="switch">
 
+    <!-- Actual list -->
     <div *ngSwitchCase="'success'" class="switch-case">
       <div class="incidents-list">
         <!-- card -->
@@ -35,8 +47,8 @@
             </button>
           </mat-card-actions>
         </mat-card>
-
       </div>
+      <!-- paginator -->
       <div class="list-paginator">
         <mat-paginator [length]="pagingState.length"
                       [pageSize]="pagingState.pageSize"
@@ -47,6 +59,7 @@
       </div>
     </div>
 
+    <!-- No data states -->
     <div *ngSwitchCase="'loading'" class="switch-case">
       <div class="list-state">
         <mat-spinner color="accent" diameter="128" class="state-img"></mat-spinner>

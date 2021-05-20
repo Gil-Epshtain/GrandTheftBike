@@ -1,16 +1,19 @@
 // Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
 import { HttpClientModule } from '@angular/common/http';
 
 // Material
-import { MatCardModule }from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule }from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 // App
 import { AppRoutingModule } from './app-routing.module';
@@ -37,13 +40,16 @@ import { MapComponent } from './components/map/map.component';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    FormsModule, // NgModel lives here
 
-    MatCardModule,
     MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatPaginatorModule,
-    MatToolbarModule,
     MatProgressSpinnerModule,
+    MatToolbarModule,
 
     AppRoutingModule
   ],

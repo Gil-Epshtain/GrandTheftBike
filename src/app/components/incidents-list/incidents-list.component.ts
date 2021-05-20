@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
+import * as _ from 'lodash';
+
 import { BikeTheftsService, iBikeTheft } from '../../services/bike-thefts/bike-thefts.service';
 
 interface iPagingState
@@ -32,6 +34,8 @@ export class IncidentsListComponent implements OnInit
   public pagingState: iPagingState;
   public loadingState: eLoadingState;
 
+  public filterValue: string;
+
   public constructor(
     private _router: Router,
     private _bikeTheftsService: BikeTheftsService)
@@ -41,6 +45,8 @@ export class IncidentsListComponent implements OnInit
 
   public ngOnInit(): void
   {
+    this.filterValue = "";
+
     this._initListState();
     this._loadTheftsList();
   }
@@ -56,12 +62,12 @@ export class IncidentsListComponent implements OnInit
     };
   }
 
-  private _loadTheftsList(): void
+  private _loadTheftsList(filter?: string): void
   {
     this.loadingState = eLoadingState.Loading;
 
     //this._bikeTheftsService.loadBerlinTheftsIncidents(this.listState.pageIndex, this.listState.pageSize).then( // API V2
-    this._bikeTheftsService.loadBerlinBikeThefts(this.pagingState.pageIndex, this.pagingState.pageSize).then( // API V3
+    this._bikeTheftsService.loadBerlinBikeThefts(this.pagingState.pageIndex, this.pagingState.pageSize, { title: filter }).then( // API V3
       (result) =>
       {
         this.theftsList = result.list;
@@ -76,6 +82,21 @@ export class IncidentsListComponent implements OnInit
         this.pagingState.length = 0;
         this.loadingState = eLoadingState.Error;
       });
+  }
+
+  public onKeyUp_Filter = _.debounce( // Execute this method after the user stop typing (500ms after)
+  (event): void =>
+  {
+    console.log("Incidents-List.component - onKeyUp_Filter");
+
+    this.runFilter();
+  }, 500);
+
+  public runFilter(): void
+  {
+    const filterVal = this.filterValue.trim().toLowerCase();
+
+    this._loadTheftsList(filterVal);
   }
 
   public onClick_Incident(bikeTheft: iBikeTheft): void
@@ -103,7 +124,7 @@ export class IncidentsListComponent implements OnInit
       this.pagingState.pageIndex = event.pageIndex;
       this.pagingState.pageSize  = event.pageSize;
 
-      this._loadTheftsList();
+      this._loadTheftsList(this.filterValue);
     }
   }
 }

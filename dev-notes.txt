@@ -19,12 +19,16 @@ Done!
 Done!
 
 5. Search function must be able to filter by case title, alternatively by date, or both.
+Done (text only, no date/time filter in apiV3)
 
 6. The should be an autocomplete for title search (as in the example).
+TBD
 
 7. Display of loading state until the list is available, error state if the list is unavailable, and empty state if there are no results.
+Done!
 
 X. Unit tests
+TBD
 
 -----
 Bug:
